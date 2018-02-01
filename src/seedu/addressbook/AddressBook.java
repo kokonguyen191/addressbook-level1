@@ -476,10 +476,12 @@ public class AddressBook {
      * @return list of persons in full model with name containing some of the keywords
      */
     private static ArrayList<HashMap<PersonProperty, String>> getPersonsWithNameContainingAnyKeyword(Collection<String> keywords) {
+        Set<String> keywordsInLowerCase = convertToLowerCase(keywords);
         final ArrayList<HashMap<PersonProperty, String>> matchedPersons = new ArrayList<>();
         for (HashMap<PersonProperty, String> person : getAllPersonsInAddressBook()) {
             final Set<String> wordsInName = new HashSet<>(splitByWhitespace(getNameFromPerson(person)));
-            if (!Collections.disjoint(wordsInName, keywords)) {
+            Set<String> wordsInNameInLowerCase = convertToLowerCase(wordsInName);
+            if (!Collections.disjoint(wordsInNameInLowerCase, keywordsInLowerCase)) {
                 matchedPersons.add(person);
             }
         }
@@ -1170,6 +1172,21 @@ public class AddressBook {
      */
     private static ArrayList<String> splitByWhitespace(String toSplit) {
         return new ArrayList<>(Arrays.asList(toSplit.trim().split("\\s+")));
+    }
+
+    /**
+     * Convert all strings in a Set<String> to lower case
+     *
+     * @param toConvert source collection
+     * @return collection with strings converted to lower case
+     */
+    private static Set<String> convertToLowerCase(Collection<String> toConvert) {
+        Set<String> convertedStrings = new HashSet<String>();
+        Iterator<String> ite = toConvert.iterator();
+        while (ite.hasNext()) {
+            convertedStrings.add(ite.next().toLowerCase());
+        }
+        return convertedStrings;
     }
 
 }
