@@ -788,11 +788,11 @@ public class AddressBook {
      * @return true if the given person was found and deleted in the model
      */
     private static boolean deletePersonFromAddressBook(HashMap<PersonProperty, String> exactPerson) {
-        final boolean changed = ALL_PERSONS.remove(exactPerson);
-        if (changed) {
+        final boolean isChanged = ALL_PERSONS.remove(exactPerson);
+        if (isChanged) {
             savePersonsToFile(getAllPersonsInAddressBook(), storageFilePath);
         }
-        return changed;
+        return isChanged;
     }
 
     /**
@@ -1181,7 +1181,7 @@ public class AddressBook {
      * @return collection with strings converted to lower case
      */
     private static Set<String> convertToLowerCase(Collection<String> toConvert) {
-        Set<String> convertedStrings = new HashSet<String>();
+        Set<String> convertedStrings = new HashSet<>();
         Iterator<String> ite = toConvert.iterator();
         while (ite.hasNext()) {
             convertedStrings.add(ite.next().toLowerCase());
